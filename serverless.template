@@ -1,0 +1,96 @@
+{
+  "Description": "Latham information service.",
+  "Resources": {
+    "GetInfo": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "GetInfo",
+        "Policies": [
+          "AmazonDynamoDBReadOnlyAccess",
+          "AmazonS3ReadOnlyAccess"
+        ],
+        "Environment" : {
+        },
+        "Events": {
+          "GetResource": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/",
+              "Method": "get"
+            }
+          }
+        }
+      }
+    },
+    "GetInfoList": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "GetInfoList",
+        "Policies": [
+          "AmazonDynamoDBReadOnlyAccess",
+          "AmazonS3ReadOnlyAccess"
+        ],
+        "Environment" : {
+        },
+        "Events": {
+          "GetResource": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/titles",
+              "Method": "get"
+            }
+          }
+        }
+      }
+    },
+    "PutInfo": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "PutInfo",
+        "Policies": [
+          "AmazonDynamoDBFullAccess",
+          "AmazonS3FullAccess"
+        ],
+        "Environment" : {
+        },
+        "Events": {
+          "PutResource": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/",
+              "Method": "post"
+            }
+          }
+        }
+      }
+    },
+    "InfoTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+	    "TableName" : "LathamInfo",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": "3",
+          "WriteCapacityUnits": "3"
+        }
+      }
+    }
+  },
+  "Outputs" : {
+    "Message" : {
+      "Description" : "Output message",
+      "Value" : "Success"
+    }
+  }
+}
